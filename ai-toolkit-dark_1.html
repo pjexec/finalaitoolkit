@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Toolkit Directory</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; transition: background-color 0.3s, color 0.3s; }
+    button, input, select, textarea { font-family: inherit; font-size: inherit; }
+    
+    /* Layout */
+    .min-h-screen { min-height: 100vh; }
+    .fixed { position: fixed; }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .z-50 { z-index: 50; }
+    .flex { display: flex; }
+    .grid { display: grid; }
+    .block { display: block; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .flex-1 { flex: 1 1 0%; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .items-end { align-items: flex-end; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-0\.5 { gap: 0.125rem; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    
+    /* Sizing */
+    .w-full { width: 100%; }
+    .w-4 { width: 1rem; }
+    .h-4 { height: 1rem; }
+    .max-w-6xl { max-width: 72rem; }
+    .max-w-2xl { max-width: 42rem; }
+    .max-h-\[90vh\] { max-height: 90vh; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    
+    /* Spacing */
+    .p-4 { padding: 1rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .pt-4 { padding-top: 1rem; }
+    .pt-6 { padding-top: 1.5rem; }
+    .pb-1 { padding-bottom: 0.25rem; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-3 { margin-bottom: 0.75rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-8 { margin-top: 2rem; }
+    .ml-2 { margin-left: 0.5rem; }
+    
+    /* Typography */
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace; }
+    .leading-tight { line-height: 1.25; }
+    .text-center { text-align: center; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .whitespace-nowrap { white-space: nowrap; }
+    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    
+    /* Colors - Background (Light) */
+    .bg-white { background-color: #fff; }
+    .bg-black { background-color: #000; }
+    .bg-gray-50 { background-color: #f9fafb; }
+    .bg-gray-100 { background-color: #f3f4f6; }
+    .bg-gray-200 { background-color: #e5e7eb; }
+    .bg-gray-300 { background-color: #d1d5db; }
+    .bg-blue-100 { background-color: #dbeafe; }
+    .bg-blue-600 { background-color: #2563eb; }
+    .bg-blue-700 { background-color: #1d4ed8; }
+    .bg-green-100 { background-color: #dcfce7; }
+    .bg-green-600 { background-color: #16a34a; }
+    .bg-green-700 { background-color: #15803d; }
+    .bg-red-100 { background-color: #fee2e2; }
+    .bg-yellow-100 { background-color: #fef9c3; }
+    .bg-amber-100 { background-color: #fef3c7; }
+    .bg-purple-100 { background-color: #f3e8ff; }
+    .bg-indigo-100 { background-color: #e0e7ff; }
+    .bg-orange-100 { background-color: #ffedd5; }
+    .bg-slate-100 { background-color: #eeeeee; }
+    .bg-opacity-50 { --tw-bg-opacity: 0.5; background-color: rgba(0, 0, 0, 0.5); }
+    
+    /* Colors - Text (Light) */
+    .text-white { color: #fff; }
+    .text-gray-300 { color: #d1d5db; }
+    .text-gray-500 { color: #6b7280; }
+    .text-gray-600 { color: #4b5563; }
+    .text-gray-700 { color: #374151; }
+    .text-gray-800 { color: #1f2937; }
+    .text-gray-900 { color: #111827; }
+    .text-blue-600 { color: #2563eb; }
+    .text-blue-800 { color: #1e40af; }
+    .text-green-800 { color: #166534; }
+    .text-red-500 { color: #ef4444; }
+    .text-red-600 { color: #dc2626; }
+    .text-red-700 { color: #b91c1c; }
+    .text-red-800 { color: #991b1b; }
+    .text-yellow-500 { color: #eab308; }
+    .text-yellow-800 { color: #854d0e; }
+    .text-amber-700 { color: #b45309; }
+    .text-purple-800 { color: #6b21a8; }
+    .text-indigo-700 { color: #4338ca; }
+    .text-orange-700 { color: #c2410c; }
+    .text-slate-600 { color: #2a2a2a; }
+    
+    /* Borders */
+    .border { border-width: 1px; border-style: solid; }
+    .border-t { border-top-width: 1px; border-top-style: solid; }
+    .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+    .border-gray-200 { border-color: #e5e7eb; }
+    .border-gray-300 { border-color: #d1d5db; }
+    .border-green-300 { border-color: #86efac; }
+    .border-blue-300 { border-color: #93c5fd; }
+    .border-red-300 { border-color: #fca5a5; }
+    .border-yellow-300 { border-color: #fde047; }
+    .border-amber-300 { border-color: #fcd34d; }
+    .border-purple-300 { border-color: #d8b4fe; }
+    .border-indigo-300 { border-color: #a5b4fc; }
+    .border-orange-300 { border-color: #fdba74; }
+    .border-slate-300 { border-color: #bbbbbb; }
+    
+    /* Rounded */
+    .rounded { border-radius: 0.25rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-full { border-radius: 9999px; }
+    
+    /* Shadows */
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    
+    /* Transitions */
+    .transition-colors { transition-property: color, background-color, border-color; transition-duration: 150ms; }
+    .transition-shadow { transition-property: box-shadow; transition-duration: 150ms; }
+    .transition-all { transition: all 0.3s; }
+    
+    /* Overflow */
+    .overflow-hidden { overflow: hidden; }
+    .overflow-y-auto { overflow-y: auto; }
+    
+    /* Cursor */
+    .cursor-pointer { cursor: pointer; }
+    .cursor-default { cursor: default; }
+    
+    /* Focus */
+    .focus\:ring-2:focus { box-shadow: 0 0 0 2px #3b82f6; }
+    .focus\:ring-blue-500:focus { --tw-ring-color: #3b82f6; }
+    .focus\:border-blue-500:focus { border-color: #3b82f6; }
+    
+    /* Hover states */
+    .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); }
+    .hover\:bg-gray-200:hover { background-color: #e5e7eb; }
+    .hover\:bg-gray-300:hover { background-color: #d1d5db; }
+    .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
+    .hover\:bg-green-700:hover { background-color: #15803d; }
+    .hover\:text-gray-700:hover { color: #374151; }
+    .hover\:text-blue-600:hover { color: #2563eb; }
+    .hover\:text-blue-800:hover { color: #1e40af; }
+    .hover\:text-red-500:hover { color: #ef4444; }
+    .hover\:text-red-600:hover { color: #dc2626; }
+    .hover\:text-red-800:hover { color: #991b1b; }
+    .hover\:scale-110:hover { transform: scale(1.1); }
+    
+    /* Responsive */
+    @media (min-width: 640px) {
+      .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (min-width: 768px) {
+      .md\:p-6 { padding: 1.5rem; }
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    
+    /* Form elements */
+    input, select, textarea { outline: none; }
+    input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px #3b82f6; border-color: #3b82f6; }
+    select { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+    input[type="checkbox"] { accent-color: #2563eb; }
+
+    /* ========== DARK MODE STYLES ========== */
+    .dark { background-color: #000000; color: #dddddd; }
+    .dark .bg-gray-50 { background-color: #111111; }
+    .dark .bg-white { background-color: #111111; }
+    .dark .bg-gray-100 { background-color: #1a1a1a; }
+    .dark .bg-gray-200 { background-color: #2a2a2a; }
+    .dark .bg-gray-300 { background-color: #444444; }
+    
+    .dark .text-gray-900 { color: #eeeeee; }
+    .dark .text-gray-800 { color: #dddddd; }
+    .dark .text-gray-700 { color: #bbbbbb; }
+    .dark .text-gray-600 { color: #888888; }
+    .dark .text-gray-500 { color: #444444; }
+    
+    .dark .border-gray-200 { border-color: #1a1a1a; }
+    .dark .border-gray-300 { border-color: #2a2a2a; }
+    .dark .border-t { border-color: #1a1a1a; }
+    
+    .dark input, .dark select, .dark textarea { 
+      background-color: #111111; 
+      color: #dddddd; 
+      border-color: #2a2a2a; 
+    }
+    .dark input::placeholder, .dark textarea::placeholder { color: #444444; }
+    
+    .dark .hover\:bg-gray-200:hover { background-color: #1a1a1a; }
+    .dark .hover\:bg-gray-300:hover { background-color: #2a2a2a; }
+    .dark .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); }
+    
+    .dark .shadow-sm { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+    .dark .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4); }
+    
+    /* Dark mode status badges - keep them colorful */
+    .dark .bg-green-100 { background-color: rgba(34, 197, 94, 0.15); }
+    .dark .bg-blue-100 { background-color: rgba(59, 130, 246, 0.15); }
+    .dark .bg-red-100 { background-color: rgba(239, 68, 68, 0.15); }
+    .dark .bg-yellow-100 { background-color: rgba(234, 179, 8, 0.15); }
+    .dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.15); }
+    .dark .bg-purple-100 { background-color: rgba(168, 85, 247, 0.15); }
+    .dark .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.15); }
+    .dark .bg-orange-100 { background-color: rgba(249, 115, 22, 0.15); }
+    .dark .bg-slate-100 { background-color: rgba(100, 116, 139, 0.15); }
+    
+    .dark .text-green-800 { color: #86efac; }
+    .dark .text-blue-800 { color: #93c5fd; }
+    .dark .text-red-700, .dark .text-red-800 { color: #fca5a5; }
+    .dark .text-yellow-800 { color: #fde047; }
+    .dark .text-amber-700 { color: #fcd34d; }
+    .dark .text-purple-800 { color: #d8b4fe; }
+    .dark .text-indigo-700 { color: #a5b4fc; }
+    .dark .text-orange-700 { color: #fdba74; }
+    .dark .text-slate-600 { color: #888888; }
+    
+    .dark .text-blue-600 { color: #60a5fa; }
+    .dark .hover\:text-blue-800:hover { color: #93c5fd; }
+    .dark .hover\:text-blue-600:hover { color: #60a5fa; }
+    .dark .text-red-600 { color: #f87171; }
+    .dark .hover\:text-red-600:hover { color: #fca5a5; }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background-color: #e5e7eb;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .theme-toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .dark .theme-toggle {
+      background-color: #3b82f6;
+    }
+    .dark .theme-toggle::after {
+      transform: translateX(20px);
+    }
+    .theme-icon {
+      position: absolute;
+      font-size: 12px;
+      top: 4px;
+    }
+    .theme-icon.sun { left: 5px; }
+    .theme-icon.moon { right: 5px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useMemo, useEffect } = React;
+
+    const defaultTools = [
+      { id: 1, name: "ChatGPT (Pro)", category: "Core LLM", rating: 5, capabilities: ["reasoning", "strategy", "ideation", "prompt engineering", "code scaffolding", "copywriting", "negotiation scripts", "design iteration", "PRDs", "legal structuring", "memory hub", "thinking", "synthesis", "image generation", "video generation"], notes: "Primary AI operating system. Co-founder level. Central memory hub. Image gen recently upgraded.", status: "primary" },
+      { id: 2, name: "Claude", category: "Core LLM", rating: 4, capabilities: ["deep reasoning", "long-form synthesis", "alternative perspective", "thinking", "analysis"], notes: "Strong at reasoning and synthesis. Secondary to ChatGPT but valued for different thinking style.", status: "active" },
+      { id: 3, name: "Gemini 3 Pro", category: "Core LLM", rating: 4, capabilities: ["reasoning", "image generation", "app building", "structured output"], notes: "Powers Nano Banana Pro. Strong execution engine.", status: "active" },
+      { id: 4, name: "Grok", category: "Core LLM", rating: 2, capabilities: ["comparative awareness", "ecosystem familiarity"], notes: "Not a core daily tool. More observational than relied upon.", status: "occasional" },
+      { id: 5, name: "Nano Banana Pro", category: "Image Generation", rating: 5, capabilities: ["AI image generation", "ad creative", "scroll-stopper visuals", "image prompting", "visual ads", "image from text"], notes: "Powered by Gemini 3 Pro. Primary for AI images. Has pros/cons vs ChatGPT—need both.", status: "primary" },
+      { id: 6, name: "ChatGPT Image Gen", category: "Image Generation", rating: 5, capabilities: ["AI image generation", "image from text", "image creation", "visual content"], notes: "Just upgraded (Dec 2024). Now competitive with Nano Banana. Has different strengths—need both.", status: "primary" },
+      { id: 7, name: "Veo3 (via Flow)", category: "Video Generation", rating: 5, capabilities: ["AI video generation", "video from text", "video from image", "image to video", "video creation"], notes: "Google's video gen. Accessed via Flow website. Has pros/cons vs Sora—need both.", status: "primary" },
+      { id: 8, name: "Sora (ChatGPT)", category: "Video Generation", rating: 5, capabilities: ["AI video generation", "video from text", "video from image", "image to video", "video creation"], notes: "ChatGPT's video gen. Has different strengths than Veo3—need both.", status: "primary" },
+      { id: 9, name: "Google AI Studio (Anti-Gravity)", category: "App Builder", rating: 5, capabilities: ["app building", "web app generation", "CRM prototypes", "internal tools", "website apps", "website building", "Mac app"], notes: "Mac app. Primary for app building recently. Also proficient for websites. Execution engine.", status: "primary" },
+      { id: 10, name: "Lovable", category: "App Builder", rating: 5, capabilities: ["website design", "app UI generation", "vibe-coding", "rapid prototyping", "web development", "landing pages", "websites"], notes: "Fast with strong aesthetics. Primary for websites. Replaced Bolt and Netlify.", status: "primary" },
+      { id: 11, name: "Base44", category: "App Builder", rating: 3, capabilities: ["website building", "app building", "web development"], notes: "Recently tested. Has pros/cons. Still evaluating.", status: "testing" },
+      { id: 12, name: "Aura.build", category: "App Builder", rating: 3, capabilities: ["website building", "app building", "web development"], notes: "Recently tested. Has pros/cons. Still evaluating.", status: "testing" },
+      { id: 13, name: "Bolt.new", category: "App Builder", rating: 2, capabilities: ["site deployment", "hosting"], notes: "Moved away from. Not flexible enough long-term.", status: "abandoned" },
+      { id: 14, name: "Retell AI", category: "Voice AI Platform", rating: 5, capabilities: ["voice receptionist", "voice agent", "web call widgets", "hero demos", "restaurant AI", "HVAC AI", "phone answering", "voice AI"], notes: "Primary voice platform. Trusted for real sales demos. Strong UX control. Beats Vapi for production.", status: "primary" },
+      { id: 15, name: "Vapi.ai", category: "Voice AI Platform", rating: 3, capabilities: ["voice agent templates", "prototyping", "voice AI comparison"], notes: "Template-oriented. Useful for comparison but not primary stack.", status: "secondary" },
+      { id: 16, name: "Limitless AI", category: "Memory / Lifelogging", rating: 5, capabilities: ["life-logging", "meeting capture", "transcript generation", "memory ingestion", "conversation recording"], notes: "Primary raw memory tool. Highly valued. Beats Fathom for continuous capture.", status: "primary" },
+      { id: 17, name: "Fathom", category: "Meeting Transcription", rating: 3, capabilities: ["video meeting transcripts", "call summaries", "meeting recording"], notes: "Utility-focused. Secondary to Limitless.", status: "secondary" },
+      { id: 18, name: "n8n", category: "Automation Platform", rating: 5, capabilities: ["advanced automation", "API-less workarounds", "POS integrations", "event-driven workflows", "complex logic", "custom automation"], notes: "Preferred when control is required. Systems-level tool. Beats Zapier for complex work.", status: "primary" },
+      { id: 19, name: "Zapier", category: "Automation Platform", rating: 4, capabilities: ["trigger automation", "quick connections", "data movement", "simple automation"], notes: "Reliable but limiting. Used when speed matters more than flexibility.", status: "active" },
+      { id: 20, name: "Pipedream", category: "Automation / Integration", rating: 4, capabilities: ["syncing transcripts", "custom pipelines", "API glue", "developer automation"], notes: "Developer-friendly. Useful glue between systems.", status: "active" },
+      { id: 21, name: "Rube", category: "Automation Platform", rating: 3, capabilities: ["automation triggers", "workflow experimentation"], notes: "Part of experimentation stack.", status: "experimental" },
+      { id: 22, name: "Notion", category: "Knowledge Management", rating: 4, capabilities: ["knowledge storage", "project tracking", "reference material", "documentation"], notes: "Knowledge warehouse, not thinking engine. Wants AI-readable exports.", status: "active" },
+      { id: 23, name: "Google Docs / Sheets", category: "Documentation / Data", rating: 4, capabilities: ["transcripts", "spreadsheets", "CRM tracking", "exports", "data storage"], notes: "Chosen for interoperability. Neutral infrastructure.", status: "active" },
+      { id: 24, name: "NotebookLM", category: "AI Research Tool", rating: 3, capabilities: ["MD file ingestion", "secondary reasoning", "research synthesis"], notes: "Consumer of memory, not a source.", status: "planned" },
+      { id: 25, name: "ManyReach", category: "Cold Email Platform", rating: 4, capabilities: ["cold email sending", "account warm-up", "throttle control", "outreach campaigns", "email outreach"], notes: "Extreme caution on deliverability. Focus on safe sending and reputation.", status: "primary" },
+      { id: 26, name: "Klaviyo", category: "Email Service Provider", rating: 5, capabilities: ["ESP integration", "email marketing", "flows", "automation", "deliverability"], notes: "Deep expertise. Infrastructure, not strategy tool.", status: "expert" },
+      { id: 27, name: "Mailchimp", category: "Email Service Provider", rating: 4, capabilities: ["ESP integration", "email marketing", "campaigns"], notes: "Deep familiarity. No tolerance for shallow deliverability advice.", status: "expert" },
+      { id: 28, name: "SendGrid", category: "Email Service Provider", rating: 4, capabilities: ["ESP integration", "transactional email", "sending infrastructure"], notes: "Treated as sending infrastructure.", status: "active" },
+      { id: 29, name: "Canva", category: "Design Platform", rating: 4, capabilities: ["presentations", "documents", "social content", "visual assets", "quick design"], notes: "Utility-focused. Speed over design purity.", status: "active" },
+      { id: 30, name: "Venna AI", category: "Personalized Video", rating: 4, capabilities: ["templated video", "personalized outreach video", "video prospecting", "cold outreach video"], notes: "Used for cold email video outreach.", status: "active" },
+      { id: 31, name: "Netlify", category: "Hosting / Deployment", rating: 3, capabilities: ["hosting", "site deployment", "DNS"], notes: "Infrastructure-only. DNS/SSL friction experienced.", status: "secondary" },
+      { id: 32, name: "FoodTec POS", category: "POS System", rating: 2, capabilities: ["POS integration", "restaurant orders"], notes: "Closed ecosystem frustration. Actively seeking API-less hacks.", status: "problematic" },
+      { id: 33, name: "Chowly", category: "POS Middleware", rating: 3, capabilities: ["POS connectivity", "middleware bridge"], notes: "Considered a bridge, not ideal.", status: "evaluated" },
+      { id: 34, name: "BotMockups", category: "Chat UI Mockup Tool", rating: 2, capabilities: ["web chat mockups", "chatbot previews"], notes: "Platform limitations. Template duplication issues. Building from scratch is easier.", status: "abandoned" },
+      { id: 35, name: "Atlas", category: "Agent / OS Layer", rating: 3, capabilities: ["agent thinking", "AI OS concepts"], notes: "Conceptual OS thinking rather than finished product.", status: "conceptual" },
+      { id: 36, name: "QuickSilver OS", category: "Agent / OS Layer", rating: 3, capabilities: ["workflow acceleration", "agent orchestration"], notes: "Mental model more than concrete tool.", status: "conceptual" }
+    ];
+
+    const statusOptions = ["primary", "active", "secondary", "expert", "experimental", "testing", "occasional", "planned", "evaluated", "abandoned", "problematic", "conceptual"];
+    const statusColors = {
+      primary: "bg-green-100 text-green-800 border-green-300",
+      active: "bg-blue-100 text-blue-800 border-blue-300",
+      secondary: "bg-gray-100 text-gray-600 border-gray-300",
+      expert: "bg-purple-100 text-purple-800 border-purple-300",
+      experimental: "bg-yellow-100 text-yellow-800 border-yellow-300",
+      testing: "bg-amber-100 text-amber-700 border-amber-300",
+      occasional: "bg-gray-100 text-gray-500 border-gray-200",
+      planned: "bg-indigo-100 text-indigo-700 border-indigo-300",
+      evaluated: "bg-orange-100 text-orange-700 border-orange-300",
+      abandoned: "bg-red-100 text-red-700 border-red-300",
+      problematic: "bg-red-100 text-red-600 border-red-300",
+      conceptual: "bg-slate-100 text-slate-600 border-slate-300"
+    };
+
+    const StarRating = ({ rating, onRate, size = "text-lg" }) => {
+      const [hover, setHover] = useState(0);
+      return (
+        <div className="flex gap-0.5">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button key={star} onClick={() => onRate && onRate(star)}
+              onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)}
+              className={`${size} transition-colors ${star <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'} ${onRate ? 'cursor-pointer hover:scale-110' : 'cursor-default'}`}>★</button>
+          ))}
+        </div>
+      );
+    };
+
+    const Modal = ({ isOpen, onClose, title, children }) => {
+      if (!isOpen) return null;
+      return (
+        <div className="fixed inset-0 bg-opacity-50 bg-black flex items-center justify-center z-50 p-4" onClick={onClose}>
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+              <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl leading-none">×</button>
+            </div>
+            <div className="p-4">{children}</div>
+          </div>
+        </div>
+      );
+    };
+
+    const ToolForm = ({ tool, onSave, onCancel, categories }) => {
+      const [form, setForm] = useState(tool || { name: '', category: '', rating: 3, capabilities: [], notes: '', status: 'active' });
+      const [capInput, setCapInput] = useState('');
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!form.name.trim() || !form.category.trim()) { alert('Name and category are required'); return; }
+        onSave({ ...form, id: form.id || Date.now() });
+      };
+
+      const addCapability = () => {
+        const cap = capInput.trim().toLowerCase();
+        if (cap && !form.capabilities.includes(cap)) {
+          setForm({ ...form, capabilities: [...form.capabilities, cap] });
+          setCapInput('');
+        }
+      };
+
+      const removeCapability = (cap) => {
+        setForm({ ...form, capabilities: form.capabilities.filter(c => c !== cap) });
+      };
+
+      return (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tool Name *</label>
+            <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="e.g., ChatGPT" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+              <input type="text" list="category-list" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="e.g., Core LLM" />
+              <datalist id="category-list">{categories.map(c => <option key={c} value={c} />)}</datalist>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                {statusOptions.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+            <StarRating rating={form.rating} onRate={(r) => setForm({ ...form, rating: r })} size="text-2xl" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg" rows={2} placeholder="Your notes about this tool..." />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Capabilities (for search)</label>
+            <div className="flex gap-2 mb-2">
+              <input type="text" value={capInput} onChange={(e) => setCapInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCapability())}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg" placeholder="Add capability..." />
+              <button type="button" onClick={addCapability} className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Add</button>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {form.capabilities.map((cap, i) => (
+                <span key={i} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded flex items-center gap-1">
+                  {cap}
+                  <button type="button" onClick={() => removeCapability(cap)} className="text-gray-500 hover:text-red-500">×</button>
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-2 pt-4 border-t border-gray-200">
+            <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save Tool</button>
+            <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+          </div>
+        </form>
+      );
+    };
+
+    const ToolCard = ({ tool, onUpdateRating, onEdit, onDelete }) => {
+      const [expanded, setExpanded] = useState(false);
+      return (
+        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="font-semibold text-gray-900 text-sm leading-tight">{tool.name}</h3>
+            <span className={`text-xs px-2 py-0.5 rounded-full border whitespace-nowrap ml-2 ${statusColors[tool.status] || statusColors.active}`}>{tool.status}</span>
+          </div>
+          <div className="flex items-center gap-3 mb-2">
+            <StarRating rating={tool.rating} onRate={(r) => onUpdateRating(tool.id, r)} />
+            <span className="text-xs text-gray-500 truncate">{tool.category}</span>
+          </div>
+          <p className="text-sm text-gray-600 mb-3 line-clamp-3">{tool.notes}</p>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setExpanded(!expanded)} className="text-xs text-blue-600 hover:text-blue-800">
+              {expanded ? '− Hide' : '+ Show'} capabilities
+            </button>
+            <span className="text-gray-300">|</span>
+            <button onClick={() => onEdit(tool)} className="text-xs text-gray-500 hover:text-blue-600">Edit</button>
+            <button onClick={() => onDelete(tool.id)} className="text-xs text-gray-500 hover:text-red-600">Delete</button>
+          </div>
+          {expanded && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {tool.capabilities.map((cap, i) => (
+                <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{cap}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Theme Toggle Component
+    const ThemeToggle = ({ isDark, onToggle }) => {
+      return (
+        <button onClick={onToggle} className="theme-toggle" title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
+          <span className="theme-icon sun">☀️</span>
+          <span className="theme-icon moon">🌙</span>
+        </button>
+      );
+    };
+
+    function App() {
+      const [tools, setTools] = useState(() => {
+        const saved = localStorage.getItem('aiToolkit');
+        return saved ? JSON.parse(saved) : defaultTools;
+      });
+      const [searchQuery, setSearchQuery] = useState('');
+      const [selectedCategory, setSelectedCategory] = useState('all');
+      const [minRating, setMinRating] = useState(1);
+      const [showPrimaryOnly, setShowPrimaryOnly] = useState(false);
+      const [showAddModal, setShowAddModal] = useState(false);
+      const [editingTool, setEditingTool] = useState(null);
+      const [showExportModal, setShowExportModal] = useState(false);
+      const [importText, setImportText] = useState('');
+      
+      // Dark mode state
+      const [isDarkMode, setIsDarkMode] = useState(() => {
+        const saved = localStorage.getItem('aiToolkitTheme');
+        return saved === 'dark';
+      });
+
+      // Apply dark mode to body
+      useEffect(() => {
+        if (isDarkMode) {
+          document.body.classList.add('dark');
+        } else {
+          document.body.classList.remove('dark');
+        }
+        localStorage.setItem('aiToolkitTheme', isDarkMode ? 'dark' : 'light');
+      }, [isDarkMode]);
+
+      useEffect(() => {
+        localStorage.setItem('aiToolkit', JSON.stringify(tools));
+      }, [tools]);
+
+      const categories = useMemo(() => [...new Set(tools.map(t => t.category))].sort(), [tools]);
+
+      const filteredTools = useMemo(() => {
+        return tools.filter(tool => {
+          if (selectedCategory !== 'all' && tool.category !== selectedCategory) return false;
+          if (tool.rating < minRating) return false;
+          if (showPrimaryOnly && tool.status !== 'primary') return false;
+          if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            return tool.name.toLowerCase().includes(query) ||
+              tool.capabilities.some(c => c.toLowerCase().includes(query)) ||
+              tool.notes.toLowerCase().includes(query) ||
+              tool.category.toLowerCase().includes(query);
+          }
+          return true;
+        }).sort((a, b) => b.rating - a.rating);
+      }, [tools, searchQuery, selectedCategory, minRating, showPrimaryOnly]);
+
+      const handleUpdateRating = (id, rating) => {
+        setTools(tools.map(t => t.id === id ? { ...t, rating } : t));
+      };
+
+      const handleSaveTool = (tool) => {
+        if (editingTool) {
+          setTools(tools.map(t => t.id === tool.id ? tool : t));
+          setEditingTool(null);
+        } else {
+          setTools([...tools, tool]);
+          setShowAddModal(false);
+        }
+      };
+
+      const handleDeleteTool = (id) => {
+        if (confirm('Delete this tool?')) {
+          setTools(tools.filter(t => t.id !== id));
+        }
+      };
+
+      const handleExport = () => {
+        const json = JSON.stringify(tools, null, 2);
+        navigator.clipboard.writeText(json);
+        alert('Copied to clipboard! You can also save the text below as a .json file.');
+      };
+
+      const handleImport = () => {
+        try {
+          const imported = JSON.parse(importText);
+          if (Array.isArray(imported)) {
+            setTools(imported);
+            setShowExportModal(false);
+            setImportText('');
+            alert('Imported successfully!');
+          } else {
+            alert('Invalid format—expected an array of tools');
+          }
+        } catch (e) {
+          alert('Invalid JSON');
+        }
+      };
+
+      const handleReset = () => {
+        if (confirm('Reset to default tools? This will erase all your changes.')) {
+          setTools(defaultTools);
+        }
+      };
+
+      const taskExamples = ["image to video", "voice receptionist", "app building", "website", "automation", "image generation", "email outreach", "transcription"];
+
+      return (
+        <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 mb-1">AI Toolkit Directory</h1>
+                <p className="text-gray-600 text-sm">{tools.length} tools indexed. Click stars to rate. Data saved locally.</p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <ThemeToggle isDark={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+                <button onClick={() => setShowAddModal(true)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">+ Add Tool</button>
+                <button onClick={() => setShowExportModal(true)} className="px-3 py-1.5 bg-gray-200 text-sm rounded-lg hover:bg-gray-300">Import/Export</button>
+              </div>
+            </div>
+
+            {/* Search */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6 shadow-sm">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">What do you want to do?</label>
+                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="e.g., create video from images, build landing page, automate workflow..."
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+                <div className="mt-2 flex flex-wrap gap-2 items-center">
+                  <span className="text-xs text-gray-500">Try:</span>
+                  {taskExamples.map((ex) => (
+                    <button key={ex} onClick={() => setSearchQuery(ex)} className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded">{ex}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
+                  <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    <option value="all">All Categories</option>
+                    {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Min Rating</label>
+                  <select value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    <option value={1}>Any</option>
+                    <option value={3}>3+ ★</option>
+                    <option value={4}>4+ ★</option>
+                    <option value={5}>5 ★</option>
+                  </select>
+                </div>
+                <div className="flex items-end pb-1">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked={showPrimaryOnly} onChange={(e) => setShowPrimaryOnly(e.target.checked)} className="w-4 h-4 rounded" />
+                    <span className="text-sm text-gray-700">Primary only</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Results */}
+            <div className="mb-3 text-sm text-gray-600">
+              {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}{searchQuery && ` for "${searchQuery}"`}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredTools.map((tool) => (
+                <ToolCard key={tool.id} tool={tool} onUpdateRating={handleUpdateRating} onEdit={setEditingTool} onDelete={handleDeleteTool} />
+              ))}
+            </div>
+            {filteredTools.length === 0 && (
+              <div className="text-center py-12 text-gray-500">No tools match your search.</div>
+            )}
+
+            {/* Legend */}
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <h3 className="text-xs font-medium text-gray-500 mb-2">STATUS KEY</h3>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(statusColors).map(([status, colors]) => (
+                  <span key={status} className={`text-xs px-2 py-1 rounded-full border ${colors}`}>{status}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Add Modal */}
+          <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Tool">
+            <ToolForm onSave={handleSaveTool} onCancel={() => setShowAddModal(false)} categories={categories} />
+          </Modal>
+
+          {/* Edit Modal */}
+          <Modal isOpen={!!editingTool} onClose={() => setEditingTool(null)} title="Edit Tool">
+            {editingTool && <ToolForm tool={editingTool} onSave={handleSaveTool} onCancel={() => setEditingTool(null)} categories={categories} />}
+          </Modal>
+
+          {/* Export/Import Modal */}
+          <Modal isOpen={showExportModal} onClose={() => setShowExportModal(false)} title="Import / Export Data">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium mb-2 text-gray-900">Export (copy to clipboard)</h3>
+                <button onClick={handleExport} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Copy JSON to Clipboard</button>
+                <p className="text-xs text-gray-500 mt-1">Paste this into Claude to update your toolkit together.</p>
+              </div>
+              <div className="border-t border-gray-200 pt-4">
+                <h3 className="font-medium mb-2 text-gray-900">Import (paste JSON)</h3>
+                <textarea value={importText} onChange={(e) => setImportText(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono" rows={6} placeholder="Paste JSON array here..." />
+                <button onClick={handleImport} className="mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Import</button>
+              </div>
+              <div className="border-t border-gray-200 pt-4">
+                <button onClick={handleReset} className="text-sm text-red-600 hover:text-red-800">Reset to defaults</button>
+              </div>
+            </div>
+          </Modal>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
