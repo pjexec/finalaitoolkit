@@ -1,70 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 100% 0 0; /* oklch(1 0 0) - converted to HSL-like or just kept as variable for tailwind to handle if we use <alpha-value> syntax trick, but simpler to just use exact strings if we trust browser support. */
-    /* Actually reference uses oklch(1 0 0). I will use the exact values from reference but ensure they are valid for CSS vars used by Tailwind 3. */
-    /* Tailwind 3 with opacity support usually requires the variable to be just the channels if using `hsl(...)` but for oklch we might need to just set the full value and lose opacity utility support unless we use a specific format. 
-       However, simplified approach: Just use the full strings as in reference. */
-     
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.58 0.22 27);
-    --destructive-foreground: oklch(0.985 0 0); 
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --radius: 0.625rem;
-    --chart-1: oklch(0.809 0.105 251.813);
-    --chart-2: oklch(0.623 0.214 259.815);
-    --chart-3: oklch(0.546 0.245 262.881);
-    --chart-4: oklch(0.488 0.243 264.376);
-    --chart-5: oklch(0.424 0.199 265.638);
-  }
+/* ========================================
+   WARM EXECUTIVE DESIGN SYSTEM
+   Professional. Refined. Like a leather portfolio.
+   ======================================== */
 
-  .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0); /* Adjusted primary for dark mode based on typical Shadcn defaults if reference is weird, but checking reference: line 93 says oklch(0.87 0.00 0) which is light gray? Reference has unique values. I will stick to reference EXACTLY. */
-    --primary: oklch(0.87 0.00 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.371 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-  }
+:root {
+  /* Warm dark palette - espresso and charcoal, NOT blue */
+  --bg-deep: #1a1816;
+  --bg-surface: #242120;
+  --bg-elevated: #2e2a28;
+  --bg-hover: #383432;
+
+  /* Gold accent - rich and refined */
+  --accent: #c9a227;
+  --accent-muted: #a6872a;
+  --accent-subtle: rgba(201, 162, 39, 0.12);
+
+  /* Warm text colors */
+  --text-primary: #f2efe8;
+  --text-secondary: #b5b0a6;
+  --text-muted: #7a756c;
+
+  /* Status colors - warm tinted */
+  --status-primary: #5fa052;
+  --status-active: #4a90a4;
+  --status-expert: #9a7bc4;
+  --status-warning: #d4a855;
+  --status-danger: #c25d4e;
+  --status-neutral: #8a857c;
+
+  /* Borders and shadows - warm tinted */
+  --border: rgba(255, 248, 235, 0.08);
+  --border-accent: rgba(201, 162, 39, 0.4);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  /* Typography - bold and practical */
+  --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
+
+  html {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    min-height: 100vh;
+    background: var(--bg-deep);
+  }
+
+  /* Display typography - bold and readable */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--text-primary);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg-deep);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-hover);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
+}
+
+@layer components {
+
+  /* Cards - like pages in a portfolio */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: all 0.2s ease;
+  }
+
+  .card:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  /* Panel - for search/filter sections */
+  .panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  /* Inputs */
+  .input {
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--accent-muted);
+    box-shadow: 0 0 0 2px var(--accent-subtle);
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-deep);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-muted);
+  }
+
+  .btn-secondary {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: rgba(255, 248, 235, 0.15);
+  }
+
+  /* Status badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .badge::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+  }
+
+  .tag:hover {
+    background: var(--accent-subtle);
+    color: var(--accent);
+  }
+
+  /* Gold accent text */
+  .text-accent {
+    color: var(--accent);
+  }
+
+  /* Label styling */
+  .label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+}
+
+@layer utilities {
+
+  /* Subtle fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in {
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.03s;
+  }
+
+  .delay-2 {
+    animation-delay: 0.06s;
+  }
+
+  .delay-3 {
+    animation-delay: 0.09s;
+  }
+
+  .delay-4 {
+    animation-delay: 0.12s;
+  }
+
+  .delay-5 {
+    animation-delay: 0.15s;
+  }
+
+  .delay-6 {
+    animation-delay: 0.18s;
+  }
+
+  .delay-7 {
+    animation-delay: 0.21s;
+  }
+
+  .delay-8 {
+    animation-delay: 0.24s;
   }
 }
